@@ -1,0 +1,20 @@
+Designing a queue data structure:
+	Operates on FIFO (first-in/first-out) so data enters from one end, and leaves from the other end.
+	A pop() function would be useful to assign the data point at the head of the queue to a variable and then remove it from the queue.
+		This would also require ensuring that the pointer for determining the front of the queue is moved to the next data point in line.
+
+	Important values for the queue to function:
+		Max length of the queue
+		What data types should the queue accept
+
+List data structure design:
+	I don’t fully understand how linked lists work. I understand that they use pointers at the end of each node to point to the next node in the chain but I don’t really understand how that would be implemented in code. That being said…
+	Functions likely needed for a functional linked list:
+		A function that is able to iterate across the full length of the linked list and search for an identified value. This could form the base for the other functions used.
+		A function that adds/inserts a value into the list at an identified point. Would need 2 arguments: the value to add, and where to add it. The location could be an index value or a value to search for, both would require the above iterator function to work.
+		A function that removes/deletes a value from the list at an identified point. Would require 1 argument and possibly have an optional argument as well: ID/index of the value to remove, (optional Y/N or True/False) whether to pop the value to a variable. The value to remove could be searched for or indexed to just as the add/insert function. The optional pop argument would assign the removed value into a specific temporary variable for further use in the code.
+
+	Important values for the list to function:
+		Location of the header node
+		Locations of trailing nodes (to be found at the end of each preceding node)
+		What values are held/accepted in the list structure
