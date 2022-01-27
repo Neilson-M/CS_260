@@ -1,1 +1,44 @@
+Joe helped me out in better understanding the details of how the linked_list() function we made in class works. (And he asked me to sum up my understanding of it for posting here)
 
+Annotations are marked as ((**x)) and descriptions are listed after the example code.
+
+
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+void linked_list(){
+    Node *head = nullptr; ((**1))
+    Node *tail = head;
+
+    for(int i = 0; i < 3; ++i){
+        if(head == nullptr){ ((**2))
+            // empty list, so create first node and point both head and tail to that first node
+            Node *new_node = new Node{i, nullptr}; ((**3))
+            head = new_node; ((**4))
+            tail = new_node;
+        } else{
+            Node *new_node = new Node{i, nullptr};
+            tail->next = new_node;
+            tail = new_node;
+        }
+    }
+
+    Node *current = head;
+    while(current != nullptr) {
+        cout << "current->value: " << current->value << endl;
+        current = current->next;
+    }
+}
+
+int main() {
+    linked_list();
+
+    return 0;
+}
+
+**1: Lines 10-11 create node type pointer variables head and tail and point them to nullptr, which represents memory address 0.
+**2: Line 14 is intended to create our first node (technically a list of length 1). Once the node is created, this case will not be accessed again.
+**3: Line 18 first creates a node type pointer variable new_node. It then uses the command "new" to create a new node with value i and tail nullptr. Lastly, it assigns the address of the newly created node to *new_node.
+**4: Lines 19-20 update where the pointer variables head and tail point. The new pointer destination for both is *new_node. 
