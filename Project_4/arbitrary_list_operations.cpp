@@ -33,7 +33,7 @@ int pop_node(node_index){
             }
             else {
                 cout << "The index you're looking for is outside the searchable range." << endl;
-                return -200;
+                return -999;
             }
         }
         int pop_value = *temp_pointer->value;
@@ -58,6 +58,12 @@ int pop_node(node_index){
 }
 
 int peek(node_index){
+    Node *temp_pointer = *header;
+    int i = 0;
+    while (i < node_index){
+        *temp_pointer = temp_pointer->next;
+    }
+    int peek_value = *temp_pointer->value;
     return peek_value;
 }
 
