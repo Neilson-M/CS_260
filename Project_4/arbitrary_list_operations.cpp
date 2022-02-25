@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "node.cpp"
 
@@ -65,6 +66,14 @@ int peek(node_index){
     }
     int peek_value = *temp_pointer->value;
     return peek_value;
+}
+
+void read_list(){
+    /*
+    make string
+    step thru list and concatinate into string
+    print string
+    */
 }
 
 int main(int argc, char **argv){
