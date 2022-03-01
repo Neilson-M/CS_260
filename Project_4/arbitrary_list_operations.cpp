@@ -36,7 +36,7 @@ int pop_node(int node_index){
                 *temp_pointer = *temp_pointer->next;
             }
             else {
-                cout << "The index you're looking for is outside the searchable range." << endl;
+//                 cout << "The index you're looking for is outside the searchable range." << endl;
                 return pop_value; // pop_value = -999
             }
         }
@@ -93,7 +93,37 @@ int main(int argc, char **argv){
 //     create list here!
     while (esc_val){
         cout << "What would you like to do? [1]:Insert a node. [2]:Remove and return a node. [3]:Peek at a specific node in the list. [4]:Print all the values in the list. [5]:Exit." << endl;
+        cin >> menu_select;
         
+        switch(menu_select){
+            case 1: // void insert_node(int node_value, int insert_after)
+                cout << "What value would you like to add to the list?" << endl;
+                cin >> node_value;
+                cout << "What index would you like to insert the new node after?" << endl;
+                cin >> insert_after;
+                insert_node(node_value, insert_after);
+            case 2: // int pop_node(int node_index)
+                int pop_value;
+                cout << "Which node index do you want to remove from the list?" << endl;
+                cin >> node_index;
+                pop_value = pop_node(node_index);
+                if (pop_value == -999){
+                    cout << "There was no node to remove at index " << node_index << "." << endl;
+                }
+                else{
+                    cout << "You have removed node " << node_index << " from the list. It's value was " << pop_value << "." << endl;
+                }
+            case 3: // int peek(int node_index)
+                int peek_value;
+                cout << "Which node index do you want to look at?" << endl;
+                cin >> node_index;
+                peek(peek_value);
+            case 4: // void read_list()
+                read_list();
+            default: // exit
+                esc_val--;
+                cout << "Now exiting." << endl;
+        }
     }
     
     return 0;
