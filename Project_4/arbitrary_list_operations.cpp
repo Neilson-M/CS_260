@@ -3,6 +3,7 @@
 
 #include "node.cpp"
 
+using std::cin;
 using std::cout;
 using std::endl;
 
@@ -76,8 +77,24 @@ void read_list(){
     step thru list and concatinate into string
     print string
     */
+    string print_list;
+//     std::string print_list; // might need std:: b4 string dec
+    Node *temp_pointer = header;
+    print_list = std::to_string(temp_pointer->value);
+    while (temp_pointer->next != nullptr){
+        temp_pointer = temp_pointer->next;
+        print_list += ", " + std::to_string(temp_pointer->value);
+    }
+    cout << "The list values in order are: " << print_list << endl;
 }
 
 int main(int argc, char **argv){
+    int esc_val = 1;
+//     create list here!
+    while (esc_val){
+        cout << "What would you like to do? [1]:Insert a node. [2]:Remove and return a node. [3]:Peek at a specific node in the list. [4]:Print all the values in the list. [5]:Exit." << endl;
+        
+    }
+    
     return 0;
 }
