@@ -1,1 +1,8 @@
+create binary search tree inlcuding:
+    nodes to store values
+    add function: add new value in appropriate location based on ordering rules. 2 options: <= to the left, > to the right / < to left, > to right, = add to stack value in node
+    remove function: find and remove value node, then pick an appropriate successor node
+    at least one tree traversal function
+        pre-order, post-order, in-order, breadth-first/level-order search
+
 tests before coding
