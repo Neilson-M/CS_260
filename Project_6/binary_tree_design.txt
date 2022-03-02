@@ -5,4 +5,51 @@ create binary search tree inlcuding:
     at least one tree traversal function
         pre-order, post-order, in-order, breadth-first/level-order search
 
+Traversal:
+    Depth-first search:
+        Pre-order: NLR
+            1. Access Node
+            2. Recursively travel Left
+            3. Recursively travel Right
+        Post-order: LRN
+            1. Recursively travel Left
+            2. Recursively travel Right
+            3. Access Node
+        In-order: LNR
+            1. Recursively travel Left
+            2. Access Node
+            3. Recursively travel Right
+
+    Breadth-first search: // pseudocode from en.wikipedia.org/wiki/Breadth-first-search
+        procedure BFS(G, root) is // object being traversed is a graph, not a tree
+            let Q be a queue
+            label root as explored
+            Q.enqueue(root)
+            while Q is not empty do
+                v := Q.dequeue()
+                if v is the goal then
+                    return v
+                for all edges from v to w in G.adjacentEdges(v) do
+                    if w is not labeled as explored then
+                        label w as explored
+                        Q.enqueue(w)
+        /*  use a queue
+            make function:
+                Start at root
+                enqueue root
+                wihle queue != empty
+                    v = dequeue(front)
+                    if v->left != nullptr:
+                        enqueue(v->left)
+                    if v->right != nullptr:
+                        enqueue(v->right)
+        */
+
+
 tests before coding
+    test for add function:
+        add 2 nodes, one greater than the root, one less than
+    test for remove function:
+        remove parent of one of the nodes added in add function
+    test for traversal:
+        run each of the 4 traversal methods and check against prewritten expected results
