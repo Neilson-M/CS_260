@@ -10,12 +10,12 @@ Node *root = nullptr;
 
 void add_node(int insert_value){
 	Node *temp_pointer = root;
-	Node *new_node = new Node(insert_value, 1, nullptr, nullptr);
+	Node *new_node = new Node{insert_value, 1, nullptr, nullptr};
 	if(root == nullptr){
 		root = new_node;
 	}
 	else{
-		while(True){
+		while(true){
 			if(insert_value < temp_pointer->value){ // Traverse left down bst
 				if(temp_pointer->left != nullptr){
 					temp_pointer = temp_pointer->left;
@@ -47,7 +47,7 @@ void add_node(int insert_value){
 }
 
 int remove_node(int remove_value){
-	pass
+	return 0;
 }
 
 void pre_order_search(int node_value){
@@ -67,11 +67,11 @@ void breadth_first_search(int node_value){
 }
 
 void bfs_enqueue(){
-	pass
+	
 }
 
 void bfs_dequeue(){
-	pass
+	
 }
 
 /*
@@ -87,6 +87,8 @@ void create_binary_tree(int *root_value_array){
 
 int main(int argc, char **argv){
 	int esc_val = 1;
+    int menu_select;
+    int node_value;
 	// std::array<int, 9> root_value_array = {10, 6, 5, 3, 9, 17, 13, 15, 20};
 	
 	// create_binary_tree(root_value_array)
@@ -119,3 +121,8 @@ int main(int argc, char **argv){
 	
 	return 0;
 }
+
+/*
+I just had the successor function return the successor's parent. 
+Because you can reach down so easily.
+*/
