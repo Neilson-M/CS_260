@@ -74,7 +74,6 @@ void bfs_dequeue(){
 	
 }
 
-/*
 void create_binary_tree(int *root_value_array){
 	int place_holder = 0;
 	for(auto i : root_value_array){
@@ -83,7 +82,10 @@ void create_binary_tree(int *root_value_array){
 		}
 	}
 }
-*/
+
+void destroy_binary_tree(){
+	
+}
 
 int main(int argc, char **argv){
 	int esc_val = 1;
