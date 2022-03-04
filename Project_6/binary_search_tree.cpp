@@ -53,14 +53,29 @@ int remove_node(int remove_value){
 }
 
 void pre_order_search(int node_value){
+	/*
+	1. Access Node
+	2. Recursively travel Left
+	3. Recursively travel Right
+	*/
 	
 }
 
 void post_order_search(int node_value){
+	/*
+	1. Recursively travel Left
+	2. Recursively travel Right
+	3. Access Node
+	*/
 	
 }
 
 void in_order_search(int node_value){
+	/*
+	1. Recursively travel Left
+	2. Access Node
+	3. Recursively travel Right
+	*/
 	
 }
 
@@ -83,10 +98,12 @@ void create_binary_tree(int *root_value_array){
 	}
 	Node *temp_pointer = root;
 	string print_string;
-	print_current_tree(temp_pointer, print_string);
+	print_string = print_current_tree(temp_pointer, print_string);
+	cout << "The full binary tree, in pre-order readout, is: " << print_string << endl;
 }
 
-void print_current_tree(Node *temp_pointer, string print_string){ // Pre-order search w/o search
+// maybe needs std::string instead
+string print_current_tree(Node *temp_pointer, string print_string){ // Pre-order search w/o search
 	/*
 	1. Access Node
 	2. Recursively travel Left
@@ -99,8 +116,14 @@ void print_current_tree(Node *temp_pointer, string print_string){ // Pre-order s
 		print_string = temp_pointer->value;
 	}
 	if(temp_pointer->left != nullptr){
-		
+		temp_pointer = temp_pointer->left;
+		print_current_tree(temp_pointer, print_string);
 	}
+	if(temp_pointer->right != nullptr){
+		temp_pointer = temp_pointer->right;
+		print_current_tree(temp_pointer, print_string);
+	}
+	return print_string;
 }
 
 void destroy_binary_tree(){
