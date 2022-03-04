@@ -52,16 +52,42 @@ int remove_node(int remove_value){
 	return 0;
 }
 
-void pre_order_search(int node_value){
+// meant to return a node pointer
+Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ // temp_pointer needs to = root as this gets called!
 	/*
 	1. Access Node
 	2. Recursively travel Left
 	3. Recursively travel Right
 	*/
-	
+	if(temp_pointer->value == search_value){
+		return temp_pointer; // unsure if this will stay if temp_pointer is only defined locally as opposed to globally. does hitting [return] only once in a recursive function work?
+	}
+	else{
+		parent_node = temp_pointer;
+		if(search_value < temp_pointer->value){
+			temp_pointer = temp_pointer->left;
+		}
+		else{
+			temp_pointer = temp_pointer->right;
+		}
+		pre_order_search(temp_pointer, parent_node, search_value);
+	}
+	/*
+	if(temp_pointer->value != search_value){
+		parent_node = temp_pointer;
+		if(search_value < temp_pointer->value){
+			temp_pointer = temp_pointer->left;
+		}
+		else{
+			temp_pointer = temp_pointer->right;
+		}
+		pre_order_search(temp_pointer, parent_node, search_value);
+	}
+	return temp_pointer; // how to return parent_node? maybe add parent_node value into Node struct? easier to find parent_node but maybe harder to reassign new parent_node value?
+	*/
 }
-
-void post_order_search(int node_value){
+// return node pointer
+Node post_order_search(Node *temp_pointer, int search_value){
 	/*
 	1. Recursively travel Left
 	2. Recursively travel Right
@@ -69,8 +95,8 @@ void post_order_search(int node_value){
 	*/
 	
 }
-
-void in_order_search(int node_value){
+// return node pointer
+void in_order_search(Node *temp_pointer, int search_value){
 	/*
 	1. Recursively travel Left
 	2. Access Node
@@ -79,7 +105,7 @@ void in_order_search(int node_value){
 	
 }
 
-void breadth_first_search(int node_value){
+void breadth_first_search(int search_value){
 	
 }
 
@@ -133,7 +159,7 @@ void destroy_binary_tree(){
 int main(int argc, char **argv){
 	int esc_val = 1;
     int menu_select;
-    int node_value;
+    int search_value;
 	
 	// std::array<int, 9> root_value_array = {10, 6, 5, 3, 9, 17, 13, 15, 20}; // I tried
 	int root_value_array[9] = {10, 6, 5, 3, 9, 17, 13, 15, 20};
@@ -145,13 +171,13 @@ int main(int argc, char **argv){
 		
 		if(menu_select == 1){
 			cout << "What number would you like to add to the tree?" << endl;
-			cin >> node_value;
-			add_node(node_value);
+			cin >> search_value;
+			add_node(search_value);
 		}
 		else if(menu_select == 2){
 			cout << "What number would you like to remove from the tree?" << endl;
-			cin >> node_value;
-			remove_node(node_value);
+			cin >> search_value;
+			remove_node(search_value);
 		}
 		else{
 			if(menu_select == 3){
