@@ -9,35 +9,36 @@ using std::cout;
 using std::endl;
 
 Node *root = nullptr;
+Node *parent_node = nullptr;
 
 void add_node(int insert_value){
-	Node *temp_pointer = root;
+	Node *temp_add_pointer = root;
 	Node *new_node = new Node{insert_value, 1, nullptr, nullptr};
 	if(root == nullptr){
 		root = new_node;
 	}
 	else{
 		while(true){
-			if(insert_value < temp_pointer->value){ // Traverse left down bst
-				if(temp_pointer->left != nullptr){
-					temp_pointer = temp_pointer->left;
+			if(insert_value < temp_add_pointer->value){ // Traverse left down bst
+				if(temp_add_pointer->left != nullptr){
+					temp_add_pointer = temp_add_pointer->left;
 				}
 				else{
-					temp_pointer->left = new_node;
+					temp_add_pointer->left = new_node;
 					break;
 				}
 			}
-			else if(insert_value > temp_pointer->value){ // Traverse right down bst
-				if(temp_pointer->right != nullptr){
-					temp_pointer = temp_pointer->right;
+			else if(insert_value > temp_add_pointer->value){ // Traverse right down bst
+				if(temp_add_pointer->right != nullptr){
+					temp_add_pointer = temp_add_pointer->right;
 				}
 				else{
-					temp_pointer->right = new_node;
+					temp_add_pointer->right = new_node;
 					break;
 				}
 			}
-			else if(insert_value == temp_pointer->value){ // Stack on current node
-				temp_pointer->stack_count++;
+			else if(insert_value == temp_add_pointer->value){ // Stack on current node
+				temp_add_pointer->stack_count++;
 				break;
 			}
 			else{ // Bad end
@@ -49,16 +50,26 @@ void add_node(int insert_value){
 }
 
 int remove_node(int remove_value){
-	return 0;
+	Node *temp_remove_pointer = root;
+	parent_node = nullptr;
+	temp_remove_pointer = pre_order_search(temp_remove_pointer, parent_node, remove_value);
+	if(temp_remove_pointer != nullptr){
+		
+	}
+}
+
+void locate_successor(Node *parent_node){
+	
 }
 
 // meant to return a node pointer
-Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ // temp_pointer needs to = root as this gets called!
+Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ // temp_pointer needs to = root as this gets called! set parent_node = nullptr as this gets called
 	/*
 	1. Access Node
 	2. Recursively travel Left
 	3. Recursively travel Right
 	*/
+	/*
 	if(temp_pointer->value == search_value){
 		return temp_pointer; // unsure if this will stay if temp_pointer is only defined locally as opposed to globally. does hitting [return] only once in a recursive function work?
 	}
@@ -72,31 +83,49 @@ Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ 
 		}
 		pre_order_search(temp_pointer, parent_node, search_value);
 	}
-	/*
-	if(temp_pointer->value != search_value){
-		parent_node = temp_pointer;
-		if(search_value < temp_pointer->value){
-			temp_pointer = temp_pointer->left;
+	*/
+	if(temp_pointer != nullptr){ // check if binary tree exists (temp_pointer=root so if root =nullptr, binary tree doesn't exist) // nested if statements aren't the most efficient method but I can't figure out a better way
+		if(temp_pointer->value != search_value){ // Access Node, compare node value against search_value
+			if(temp_pointer->left != nullptr or temp_pointer->right != nullptr){ // does temp_pointer have a ->left or ->right, are we at the bottom of the tree?
+				parent_node = temp_pointer;
+				if(search_value < temp_pointer->value){ // set-up to Recursively travel Left
+					temp_pointer = temp_pointer->left;
+				}
+				else{ // set-up to Recursively travel Right
+					temp_pointer = temp_pointer->right;
+				}
+				pre_order_search(temp_pointer, parent_node, search_value); // Recursively travel Left or Right
+			}
 		}
-		else{
-			temp_pointer = temp_pointer->right;
-		}
-		pre_order_search(temp_pointer, parent_node, search_value);
+		// else if(){}
+	}
+	else{ // if binary tree doesn't exist, say so, temp_pointer (already == nullptr) returns nullptr
+		cout << "There is currently no binary tree to search through." << endl;
 	}
 	return temp_pointer; // how to return parent_node? maybe add parent_node value into Node struct? easier to find parent_node but maybe harder to reassign new parent_node value?
-	*/
 }
 // return node pointer
-Node post_order_search(Node *temp_pointer, int search_value){
+void post_order_search(Node *temp_pointer, Node *parent_node, int search_value){ // temp_pointer needs to = root as this gets called!
 	/*
 	1. Recursively travel Left
 	2. Recursively travel Right
 	3. Access Node
 	*/
-	
+	parent_node = temp_pointer;
+	if(search_value < temp_pointer->value){
+		temp_pointer = temp_pointer->left;
+		post_order_search(temp_pointer, parent_node, search_value);
+	}
+	else if(search_value > temp_pointer){
+		temp_pointer = temp_pointer->right;
+		post_order_search(temp_pointer, parent_node, search_value);
+	}
+	if(search_value == temp_pointer->value){
+		return temp_pointer;
+	}
 }
 // return node pointer
-void in_order_search(Node *temp_pointer, int search_value){
+void in_order_search(Node *temp_pointer, int search_value){ // temp_pointer needs to = root as this gets called!
 	/*
 	1. Recursively travel Left
 	2. Access Node
@@ -122,32 +151,32 @@ void create_binary_tree(int *root_value_array){
 	for(int i = 0; i < 9; i++){
 		add_node(root_value_array[i]);
 	}
-	Node *temp_pointer = root;
+	Node *temp_create_pointer = root;
 	string print_string;
-	print_string = print_current_tree(temp_pointer, print_string);
+	print_string = print_current_tree(temp_create_pointer, print_string);
 	cout << "The full binary tree, in pre-order readout, is: " << print_string << endl;
 }
 
 // maybe needs std::string instead
-string print_current_tree(Node *temp_pointer, string print_string){ // Pre-order search w/o search
+string print_current_tree(Node *temp_print_pointer, string print_string){ // Pre-order travel w/o search
 	/*
 	1. Access Node
 	2. Recursively travel Left
 	3. Recursively travel Right
 	*/
 	if(!print_string.empty()){
-		print_string = print_string + ", " + temp_pointer->value;
+		print_string = print_string + ", " + temp_print_pointer->value;
 	}
 	else{
-		print_string = temp_pointer->value;
+		print_string = temp_print_pointer->value;
 	}
-	if(temp_pointer->left != nullptr){
-		temp_pointer = temp_pointer->left;
-		print_current_tree(temp_pointer, print_string);
+	if(temp_print_pointer->left != nullptr){
+		temp_print_pointer = temp_print_pointer->left;
+		print_current_tree(temp_print_pointer, print_string);
 	}
-	if(temp_pointer->right != nullptr){
-		temp_pointer = temp_pointer->right;
-		print_current_tree(temp_pointer, print_string);
+	if(temp_print_pointer->right != nullptr){
+		temp_print_pointer = temp_print_pointer->right;
+		print_current_tree(temp_print_pointer, print_string);
 	}
 	return print_string;
 }
