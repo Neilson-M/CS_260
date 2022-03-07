@@ -49,12 +49,40 @@ void add_node(int insert_value){
 	}
 }
 
-int remove_node(int remove_value){
+void remove_node(int remove_value){
 	Node *temp_remove_pointer = root;
 	parent_node = nullptr;
 	temp_remove_pointer = pre_order_search(temp_remove_pointer, parent_node, remove_value);
 	if(temp_remove_pointer != nullptr){
-		
+		/*
+		1. check for temp_remove_pointer children: if none/if left xor right/else both
+		2. if children, traverse branch(es), compile node values into list, find median
+		3. reassign pointers for parent_node and successor_node
+		*/
+		if(temp_remove_pointer->left == nullptr and temp_remove_pointer->right == nullptr){ // no children
+			if(temp_remove_pointer->value < parent_node->value){ // delete left child
+				parent_node->left = nullptr;
+				delete temp_remove_pointer;
+			}
+			else{ // temp_remove_pointer->value > parent_node->value // delete right child
+				parent_node->right = nullptr;
+				delete temp_remove_pointer;
+			}
+		}
+		else if(temp_remove_pointer->left != nullptr xor temp_remove_pointer->right != nullptr){ // only either left or right child exixts
+			if(parent_node->left != nullptr){
+				
+			}
+			else{ // parent_node->right != nullptr
+				
+			}
+		}
+		else{ // both children exist
+			pass
+		}
+	}
+	else{
+		cout << "The value you specified was not in the binary tree." << endl;
 	}
 }
 
@@ -94,7 +122,7 @@ Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ 
 				else{ // set-up to Recursively travel Right
 					temp_pointer = temp_pointer->right;
 				}
-				pre_order_search(temp_pointer, parent_node, search_value); // Recursively travel Left or Right
+				temp_pointer = pre_order_search(temp_pointer, parent_node, search_value); // Recursively travel Left or Right
 			}
 		}
 		// else if(){}
@@ -199,7 +227,7 @@ int main(int argc, char **argv){
 		cin >> menu_select;
 		
 		if(menu_select == 1){
-			cout << "What number would you like to add to the tree?" << endl;
+			cout << "List an integer greater than zero that you would you like to add to the tree." << endl;
 			cin >> search_value;
 			add_node(search_value);
 		}
