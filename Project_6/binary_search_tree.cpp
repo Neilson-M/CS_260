@@ -52,7 +52,7 @@ void add_node(int insert_value){
 void remove_node(int remove_value){
 	Node *temp_remove_pointer = root;
 	parent_node = nullptr;
-	temp_remove_pointer = pre_order_search(temp_remove_pointer, parent_node, remove_value);
+	*temp_remove_pointer = pre_order_search(temp_remove_pointer, parent_node, remove_value);
 	if(temp_remove_pointer != nullptr){
 		/*
 		1. check for temp_remove_pointer children: if none/if left xor right/else both
@@ -62,11 +62,11 @@ void remove_node(int remove_value){
 		if(temp_remove_pointer->left == nullptr and temp_remove_pointer->right == nullptr){ // no children
 			if(temp_remove_pointer->value < parent_node->value){ // delete left child
 				parent_node->left = nullptr;
-				delete temp_remove_pointer;
+				// delete temp_remove_pointer;
 			}
 			else{ // temp_remove_pointer->value > parent_node->value // delete right child
 				parent_node->right = nullptr;
-				delete temp_remove_pointer;
+				// delete temp_remove_pointer;
 			}
 		}
 		else if(temp_remove_pointer->left != nullptr xor temp_remove_pointer->right != nullptr){ // only either left or right child exixts
@@ -78,7 +78,6 @@ void remove_node(int remove_value){
 			}
 		}
 		else{ // both children exist
-			pass
 		}
 	}
 	else{
@@ -122,7 +121,7 @@ Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ 
 				else{ // set-up to Recursively travel Right
 					temp_pointer = temp_pointer->right;
 				}
-				temp_pointer = pre_order_search(temp_pointer, parent_node, search_value); // Recursively travel Left or Right
+				*temp_pointer = pre_order_search(temp_pointer, parent_node, search_value); // Recursively travel Left or Right
 			}
 		}
 		// else if(){}
@@ -130,10 +129,10 @@ Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ 
 	else{ // if binary tree doesn't exist, say so, temp_pointer (already == nullptr) returns nullptr
 		cout << "There is currently no binary tree to search through." << endl;
 	}
-	return temp_pointer; // how to return parent_node? maybe add parent_node value into Node struct? easier to find parent_node but maybe harder to reassign new parent_node value?
+	return *temp_pointer; // how to return parent_node? maybe add parent_node value into Node struct? easier to find parent_node but maybe harder to reassign new parent_node value?
 }
 // return node pointer
-void post_order_search(Node *temp_pointer, Node *parent_node, int search_value){ // temp_pointer needs to = root as this gets called!
+Node post_order_search(Node *temp_pointer, Node *parent_node, int search_value){ // temp_pointer needs to = root as this gets called!
 	/*
 	1. Recursively travel Left
 	2. Recursively travel Right
@@ -144,12 +143,12 @@ void post_order_search(Node *temp_pointer, Node *parent_node, int search_value){
 		temp_pointer = temp_pointer->left;
 		post_order_search(temp_pointer, parent_node, search_value);
 	}
-	else if(search_value > temp_pointer){
+	else if(search_value > temp_pointer->value){
 		temp_pointer = temp_pointer->right;
 		post_order_search(temp_pointer, parent_node, search_value);
 	}
 	if(search_value == temp_pointer->value){
-		return temp_pointer;
+		return *temp_pointer;
 	}
 }
 // return node pointer
@@ -193,7 +192,7 @@ string print_current_tree(Node *temp_print_pointer, string print_string){ // Pre
 	3. Recursively travel Right
 	*/
 	if(!print_string.empty()){
-		print_string = print_string + ", " + temp_print_pointer->value;
+		print_string = print_string + ", " + std::to_string(temp_print_pointer->value);
 	}
 	else{
 		print_string = temp_print_pointer->value;
