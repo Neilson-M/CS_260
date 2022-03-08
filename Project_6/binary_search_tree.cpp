@@ -53,13 +53,13 @@ void remove_node(int remove_value){
 	Node *temp_remove_pointer = root;
 	parent_node = nullptr;
 	*temp_remove_pointer = pre_order_search(temp_remove_pointer, parent_node, remove_value);
-	if(temp_remove_pointer != nullptr){
+	if(temp_remove_pointer != nullptr){ // check if remove value exists in the binary tree
 		/*
 		1. check for temp_remove_pointer children: if none/if left xor right/else both
 		2. if children, traverse branch(es), compile node values into list, find median
 		3. reassign pointers for parent_node and successor_node
 		*/
-		if(temp_remove_pointer->left == nullptr and temp_remove_pointer->right == nullptr){ // no children
+		if(temp_remove_pointer->left == nullptr and temp_remove_pointer->right == nullptr){ // remove value node has no children
 			if(temp_remove_pointer->value < parent_node->value){ // delete left child
 				parent_node->left = nullptr;
 				// delete temp_remove_pointer;
@@ -69,15 +69,20 @@ void remove_node(int remove_value){
 				// delete temp_remove_pointer;
 			}
 		}
-		else if(temp_remove_pointer->left != nullptr xor temp_remove_pointer->right != nullptr){ // only either left or right child exixts
-			if(parent_node->left != nullptr){
+		else if(temp_remove_pointer->left != nullptr xor temp_remove_pointer->right != nullptr){ // remove value node only has either left or right child
+			if(temp_remove_pointer->value < parent_node->value){
 				
 			}
-			else{ // parent_node->right != nullptr
-				
+			else{ // temp_remove_pointer->value > parent_node->value
+				if(){
+					
+				}
+				else{ // 
+					
+				}
 			}
 		}
-		else{ // both children exist
+		else{ // remove value node has both children
 		}
 	}
 	else{
@@ -123,8 +128,11 @@ Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ 
 				}
 				*temp_pointer = pre_order_search(temp_pointer, parent_node, search_value); // Recursively travel Left or Right
 			}
+			else{ // if there's no children left or right, we're at the bottom of the tree. the search value is out of bounds of the search tree. return nullptr to indicate the missing value.
+				temp_pointer = nullptr;
+				return *temp_pointer;
+			}
 		}
-		// else if(){}
 	}
 	else{ // if binary tree doesn't exist, say so, temp_pointer (already == nullptr) returns nullptr
 		cout << "There is currently no binary tree to search through." << endl;
