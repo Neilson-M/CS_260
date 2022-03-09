@@ -70,19 +70,24 @@ void remove_node(int remove_value){
 			}
 		}
 		else if(temp_remove_pointer->left != nullptr xor temp_remove_pointer->right != nullptr){ // remove value node only has either left or right child
-			if(temp_remove_pointer->value < parent_node->value){
-				
-			}
-			else{ // temp_remove_pointer->value > parent_node->value
-				if(){
-					
+			if(temp_remove_pointer->value < parent_node->value){ // if remove node is parent's left child
+				if(temp_remove_pointer->left != nullptr){ // if remove node child is left child
+					parent_node->left = temp_remove_pointer->left; // set parent left child as remove node left child
 				}
-				else{ // 
-					
+				else{ // temp_remove_pointer->right != nullptr // if remove node child is right child 
+					parent_node->left = temp_remove_pointer->right; // set parent left child as remove node right child
+			}
+			else{ // temp_remove_pointer->value > parent_node->value // if remove node is parent's right child
+				if(temp_remove_pointer->left != nullptr){ // if remove node child is left child
+					parent_node->right = temp_remove_pointer->left; // set parent right child as remove node left child
+				}
+				else{ // temp_remove_pointer->right != nullptr // if remove node child is right child 
+					parent_node->right = temp_remove_pointer->right; // set parent right child as remove node right child
 				}
 			}
 		}
 		else{ // remove value node has both children
+			// maybe try using vectors?
 		}
 	}
 	else{
