@@ -81,6 +81,11 @@ int main(int argc, char **argv){
 }
 
 /*
+
+*/
+
+
+/*
 use dijkstra's algorithm to determine shortest path
 function Dijkstra(Graph, source):
     for each vertex v in Graph.Vertices:
