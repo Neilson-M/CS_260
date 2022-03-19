@@ -1,6 +1,7 @@
 #include <iostream>
 // #include <array>
 #include <string>
+#include <vector>
 #include "binary_node.cpp"
 
 using std::string;
@@ -62,11 +63,9 @@ void remove_node(int remove_value){
 		if(temp_remove_pointer->left == nullptr and temp_remove_pointer->right == nullptr){ // remove value node has no children
 			if(temp_remove_pointer->value < parent_node->value){ // delete left child
 				parent_node->left = nullptr;
-				// delete temp_remove_pointer;
 			}
 			else{ // temp_remove_pointer->value > parent_node->value // delete right child
 				parent_node->right = nullptr;
-				// delete temp_remove_pointer;
 			}
 		}
 		else if(temp_remove_pointer->left != nullptr xor temp_remove_pointer->right != nullptr){ // remove value node only has either left or right child
@@ -76,6 +75,7 @@ void remove_node(int remove_value){
 				}
 				else{ // temp_remove_pointer->right != nullptr // if remove node child is right child 
 					parent_node->left = temp_remove_pointer->right; // set parent left child as remove node right child
+				}
 			}
 			else{ // temp_remove_pointer->value > parent_node->value // if remove node is parent's right child
 				if(temp_remove_pointer->left != nullptr){ // if remove node child is left child
@@ -86,8 +86,15 @@ void remove_node(int remove_value){
 				}
 			}
 		}
-		else{ // remove value node has both children
-			// maybe try using vectors?
+		else{ // remove value node has both children // right child is successor, recurse through all children, create list of child values, kill pointers/orphan the children, and feed the list of orphan values back in through add_node()
+			Node *current_node = temp_remove_pointer;
+			std::vector<int> node_values;
+			std::vector<int> node_values = process_successor(current_node, temp_remove_pointer, node_values);
+
+			for(int i : node_values){
+				cout << "Adding " << i << " back into the tree." << endl;
+				add_node(i);
+			}
 		}
 	}
 	else{
@@ -95,8 +102,24 @@ void remove_node(int remove_value){
 	}
 }
 
-void locate_successor(Node *parent_node){
-	
+std::vector<int> process_successor(Node *current_node, Node *removal_node, std::vector<int> node_values){ // reverse pre-order traversal, return vector of node values to process post-successor
+	/*
+	Access current node
+	Recurse right
+	Recurse left
+	*/
+	if(current_node != removal_node){ // if current_node == removal_node, we are at the start and need to recurse once before collecting node values
+		node_values.push_back(current_node->value);
+	}
+	if(current_node->right != nullptr){
+		current_node = current_node->right;
+		process_successor(current_node, removal_node, node_values);
+	}
+	if(current_node->left != nullptr){
+		current_node = current_node->left;
+		process_successor(current_node, removal_node, node_values);
+	}
+	return node_values;
 }
 
 // meant to return a node pointer
@@ -105,21 +128,6 @@ Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ 
 	1. Access Node
 	2. Recursively travel Left
 	3. Recursively travel Right
-	*/
-	/*
-	if(temp_pointer->value == search_value){
-		return temp_pointer; // unsure if this will stay if temp_pointer is only defined locally as opposed to globally. does hitting [return] only once in a recursive function work?
-	}
-	else{
-		parent_node = temp_pointer;
-		if(search_value < temp_pointer->value){
-			temp_pointer = temp_pointer->left;
-		}
-		else{
-			temp_pointer = temp_pointer->right;
-		}
-		pre_order_search(temp_pointer, parent_node, search_value);
-	}
 	*/
 	if(temp_pointer != nullptr){ // check if binary tree exists (temp_pointer=root so if root =nullptr, binary tree doesn't exist) // nested if statements aren't the most efficient method but I can't figure out a better way
 		if(temp_pointer->value != search_value){ // Access Node, compare node value against search_value
@@ -144,7 +152,7 @@ Node pre_order_search(Node *temp_pointer, Node *parent_node, int search_value){ 
 	}
 	return *temp_pointer; // how to return parent_node? maybe add parent_node value into Node struct? easier to find parent_node but maybe harder to reassign new parent_node value?
 }
-// return node pointer
+// return node pointer // NOT IN USE!!!
 Node post_order_search(Node *temp_pointer, Node *parent_node, int search_value){ // temp_pointer needs to = root as this gets called!
 	/*
 	1. Recursively travel Left
@@ -164,7 +172,7 @@ Node post_order_search(Node *temp_pointer, Node *parent_node, int search_value){
 		return *temp_pointer;
 	}
 }
-// return node pointer
+// return node pointer // NOT IN USE!!!
 void in_order_search(Node *temp_pointer, int search_value){ // temp_pointer needs to = root as this gets called!
 	/*
 	1. Recursively travel Left
@@ -173,15 +181,15 @@ void in_order_search(Node *temp_pointer, int search_value){ // temp_pointer need
 	*/
 	
 }
-
+// NOT IN USE!!!
 void breadth_first_search(int search_value){
 	
 }
-
+// NOT IN USE!!!
 void bfs_enqueue(){
 	
 }
-
+// NOT IN USE!!!
 void bfs_dequeue(){
 	
 }
@@ -221,10 +229,6 @@ string print_current_tree(Node *temp_print_pointer, string print_string){ // Pre
 	return print_string;
 }
 
-void destroy_binary_tree(){
-	
-}
-
 int main(int argc, char **argv){
 	int esc_val = 1;
     int menu_select;
@@ -235,7 +239,7 @@ int main(int argc, char **argv){
 	create_binary_tree(root_value_array);
 	
 	while(esc_val){
-		cout << "What would you like to do? [1]:Add a node. [2]:Remove a node and return its value. [3]:Exit." << endl;
+		cout << "What would you like to do? [1]:Add a node. [2]:Remove a node and return its value. [3]:Print the Pre-Order layout of the tree. [4]:Exit." << endl;
 		cin >> menu_select;
 		
 		if(menu_select == 1){
@@ -248,8 +252,14 @@ int main(int argc, char **argv){
 			cin >> search_value;
 			remove_node(search_value);
 		}
+		else if(menu_select == 3){
+			Node *temp_print_pointer = root;
+			string print_string;
+			print_string = print_current_tree(temp_print_pointer, print_string);
+			cout << "The full binary tree, in pre-order readout, is: " << print_string << endl;
+		}
 		else{
-			if(menu_select == 3){
+			if(menu_select == 4){
 				cout << "You have chosen to exit the program. Goodbye." << endl;
 				esc_val--;
 			}
@@ -258,8 +268,7 @@ int main(int argc, char **argv){
 			}
 		}
 	}
-	
-	
+
 	return 0;
 }
 
